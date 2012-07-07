@@ -16,6 +16,8 @@
 		04DEC61A15A897B80034CA79 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC61915A897B80034CA79 /* ViewController.m */; };
 		04DEC61D15A897B80034CA79 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC61B15A897B80034CA79 /* ViewController_iPhone.xib */; };
 		04DEC62015A897B80034CA79 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC61E15A897B80034CA79 /* ViewController_iPad.xib */; };
+		04DEC62915A8988A0034CA79 /* DWTagList.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC62815A8988A0034CA79 /* DWTagList.m */; };
+		04DEC62B15A898EF0034CA79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DEC62A15A898EF0034CA79 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,9 @@
 		04DEC61915A897B80034CA79 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		04DEC61C15A897B80034CA79 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		04DEC61F15A897B80034CA79 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		04DEC62715A8988A0034CA79 /* DWTagList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWTagList.h; sourceTree = "<group>"; };
+		04DEC62815A8988A0034CA79 /* DWTagList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWTagList.m; sourceTree = "<group>"; };
+		04DEC62A15A898EF0034CA79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DEC62B15A898EF0034CA79 /* QuartzCore.framework in Frameworks */,
 				04DEC60715A897B80034CA79 /* UIKit.framework in Frameworks */,
 				04DEC60915A897B80034CA79 /* Foundation.framework in Frameworks */,
 				04DEC60B15A897B80034CA79 /* CoreGraphics.framework in Frameworks */,
@@ -69,6 +75,7 @@
 		04DEC60515A897B70034CA79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC62A15A898EF0034CA79 /* QuartzCore.framework */,
 				04DEC60615A897B70034CA79 /* UIKit.framework */,
 				04DEC60815A897B80034CA79 /* Foundation.framework */,
 				04DEC60A15A897B80034CA79 /* CoreGraphics.framework */,
@@ -79,6 +86,7 @@
 		04DEC60C15A897B80034CA79 /* DWTagList */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC62615A8988A0034CA79 /* Classes */,
 				04DEC61515A897B80034CA79 /* AppDelegate.h */,
 				04DEC61615A897B80034CA79 /* AppDelegate.m */,
 				04DEC61815A897B80034CA79 /* ViewController.h */,
@@ -99,6 +107,15 @@
 				04DEC61415A897B80034CA79 /* DWTagList-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		04DEC62615A8988A0034CA79 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				04DEC62715A8988A0034CA79 /* DWTagList.h */,
+				04DEC62815A8988A0034CA79 /* DWTagList.m */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,6 +185,7 @@
 				04DEC61315A897B80034CA79 /* main.m in Sources */,
 				04DEC61715A897B80034CA79 /* AppDelegate.m in Sources */,
 				04DEC61A15A897B80034CA79 /* ViewController.m in Sources */,
+				04DEC62915A8988A0034CA79 /* DWTagList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

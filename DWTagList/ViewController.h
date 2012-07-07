@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DWTagList.h"
 
 @interface ViewController : UIViewController
+{
+    DWTagList *tagList;
+}
 
 @end
