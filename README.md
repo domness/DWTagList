@@ -3,7 +3,7 @@ DWTagList
 
 Create a list of tags from an NSArray to be show in a view with customisable fonts, colors etc.
 
-![preview](https://photos-4.dropbox.com/psi/2048x1536/Bvp4C83YGV_tyfRkmt52j1e4iOVlYgunqcTC2BFwIts/999380/1341766800/59bc9c1/DWTagList.png "Preview")
+![preview](http://f.cl.ly/items/1k3K1i0w2b1d1M0O1w1G/DWTagList.png "Preview")
 
 ## Installation
 
