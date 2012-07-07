@@ -3,6 +3,8 @@ DWTagList
 
 Create a list of tags from an NSArray to be show in a view with customisable fonts, colors etc.
 
+![preview](https://photos-4.dropbox.com/psi/2048x1536/Bvp4C83YGV_tyfRkmt52j1e4iOVlYgunqcTC2BFwIts/999380/1341766800/59bc9c1/DWTagList.png "Preview")
+
 ## Installation
 
 Simple copy over `DWTagList.h` and `DWTagList.m` into your project and make sure you have linked the framework `QuartzCore.framework`.
