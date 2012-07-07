@@ -10,12 +10,12 @@
 @interface DWTagList : UIView
 {
     UIView *view;
-    NSMutableArray *textArray;
+    NSArray *textArray;
     CGSize sizeFit;
 }
 
 @property (nonatomic, strong) UIView *view;
-@property (nonatomic, strong) NSMutableArray *textArray;
+@property (nonatomic, strong) NSArray *textArray;
 
 - (void)setTags:(NSArray *)array;
 - (void)display;

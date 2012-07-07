@@ -36,7 +36,7 @@
 
 - (void)setTags:(NSArray *)array
 {
-    textArray = [[NSMutableArray alloc] initWithArray:array];
+    textArray = [[NSArray alloc] initWithArray:array];
     sizeFit = CGSizeZero;
     [self display];
 }
