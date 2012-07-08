@@ -41,6 +41,12 @@
     [self display];
 }
 
+- (void)setLabelBackgroundColor:(UIColor *)color
+{
+    lblBackgroundColor = color;
+    [self display];
+}
+
 - (void)display
 {
     for (UILabel *subview in [self subviews]) {
@@ -71,7 +77,11 @@
         previousFrame = label.frame;
         gotPreviousFrame = YES;
         [label setFont:[UIFont systemFontOfSize:FONT_SIZE]];
-        [label setBackgroundColor:BACKGROUND_COLOR];
+        if (!lblBackgroundColor) {
+            [label setBackgroundColor:BACKGROUND_COLOR];
+        } else {
+            [label setBackgroundColor:lblBackgroundColor];
+        }
         [label setTextColor:TEXT_COLOR];
         [label setText:text];
         [label setTextAlignment:UITextAlignmentCenter];
