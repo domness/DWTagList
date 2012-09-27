@@ -7,6 +7,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DWTagListDelegate <NSObject>
+
+@required
+
+- (void)selectedTag:(NSString*)tagName;
+
+@end
+
 @interface DWTagList : UIView
 {
     UIView *view;
@@ -17,6 +25,7 @@
 
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
+@property (nonatomic, strong) id<DWTagListDelegate> delegate;
 
 - (void)setLabelBackgroundColor:(UIColor *)color;
 - (void)setTags:(NSArray *)array;

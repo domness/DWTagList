@@ -21,9 +21,16 @@
 #define BORDER_COLOR [UIColor lightGrayColor].CGColor
 #define BORDER_WIDTH 1.0f
 
+@interface DWTagList()
+
+- (void)touchedTag:(id)sender;
+
+@end
+
 @implementation DWTagList
 
 @synthesize view, textArray;
+@synthesize delegate = _delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -45,6 +52,16 @@
 {
     lblBackgroundColor = color;
     [self display];
+}
+
+- (void)touchedTag:(id)sender{
+    
+    UITapGestureRecognizer *t = (UITapGestureRecognizer*)sender;
+    UILabel *label = (UILabel*)t.view;
+    
+    if(label && self.delegate && [self.delegate respondsToSelector:@selector(selectedTag:)])
+        [self.delegate selectedTag:label.text];
+    
 }
 
 - (void)display
@@ -91,6 +108,13 @@
         [label.layer setCornerRadius:CORNER_RADIUS];
         [label.layer setBorderColor:BORDER_COLOR];
         [label.layer setBorderWidth: BORDER_WIDTH];
+        
+        //Davide Cenzi, added gesture recognizer to label
+        UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTag:)];
+        // if labelView is not set userInteractionEnabled, you must do so
+        [label setUserInteractionEnabled:YES];
+        [label addGestureRecognizer:gesture];
+        
         [self addSubview:label];
     }
     sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f);

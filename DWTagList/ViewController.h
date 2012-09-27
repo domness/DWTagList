@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DWTagList.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <DWTagListDelegate>
 {
     DWTagList *tagList;
 }
