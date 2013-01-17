@@ -101,7 +101,7 @@
         }
         [label setTextColor:TEXT_COLOR];
         [label setText:text];
-        [label setTextAlignment:NSLineBreakByWordWrapping];
+        [label setTextAlignment:NSTextAlignmentCenter];
         [label setShadowColor:TEXT_SHADOW_COLOR];
         [label setShadowOffset:TEXT_SHADOW_OFFSET];
         [label.layer setMasksToBounds:YES];
