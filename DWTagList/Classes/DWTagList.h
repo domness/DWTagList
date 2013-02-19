@@ -23,11 +23,14 @@
     UIColor *lblBackgroundColor;
 }
 
+@property (nonatomic) BOOL viewOnly;
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, strong) id<DWTagListDelegate> delegate;
+@property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 
 - (void)setLabelBackgroundColor:(UIColor *)color;
+- (void)setLabelHighlightColor:(UIColor *)color;
 - (void)setTags:(NSArray *)array;
 - (void)display;
 - (CGSize)fittedSize;

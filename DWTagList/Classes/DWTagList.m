@@ -20,6 +20,7 @@
 #define TEXT_SHADOW_OFFSET CGSizeMake(0.0f, 1.0f)
 #define BORDER_COLOR [UIColor lightGrayColor].CGColor
 #define BORDER_WIDTH 1.0f
+#define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:0.40 green:0.80 blue:1.00 alpha:0.5]
 
 @interface DWTagList()
 
@@ -37,6 +38,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:view];
+        self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
     }
     return self;
 }
@@ -54,14 +56,26 @@
     [self display];
 }
 
-- (void)touchedTag:(id)sender{
-    
-    UITapGestureRecognizer *t = (UITapGestureRecognizer*)sender;
-    UILabel *label = (UILabel*)t.view;
-    
+- (void)setLabelHighlightColor:(UIColor *)color
+{
+    self.highlightedBackgroundColor = color;
+    [self display];
+}
+
+- (void)setViewOnly:(BOOL)viewOnly
+{
+    if (_viewOnly != viewOnly) {
+        _viewOnly = viewOnly;
+        [self display];
+    }
+}
+
+- (void)touchedTag:(id)sender
+{
+    UITapGestureRecognizer *t = (UITapGestureRecognizer *)sender;
+    UILabel *label = (UILabel *)t.view;
     if(label && self.delegate && [self.delegate respondsToSelector:@selector(selectedTag:)])
         [self.delegate selectedTag:label.text];
-    
 }
 
 - (void)display
@@ -116,6 +130,18 @@
         [label addGestureRecognizer:gesture];
         
         [self addSubview:label];
+
+        if (!_viewOnly) {
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setFrame:label.frame];
+            [button setAccessibilityLabel:label.text];
+            [button.layer setCornerRadius:CORNER_RADIUS];
+            [button addTarget:self action:@selector(touchDownInside:) forControlEvents:UIControlEventTouchDown];
+            [button addTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [button addTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+            [button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
+            [self addSubview:button];
+        }
     }
     sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f);
 }
@@ -123,6 +149,32 @@
 - (CGSize)fittedSize
 {
     return sizeFit;
+}
+
+- (void)touchDownInside:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    [button setBackgroundColor:self.highlightedBackgroundColor];
+}
+
+- (void)touchUpInside:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    [button setBackgroundColor:[UIColor clearColor]];
+    if(button && self.delegate && [self.delegate respondsToSelector:@selector(selectedTag:)])
+        [self.delegate selectedTag:button.accessibilityLabel];
+}
+
+- (void)touchDragExit:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    [button setBackgroundColor:[UIColor clearColor]];
+}
+
+- (void)touchDragInside:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    [button setBackgroundColor:self.highlightedBackgroundColor];
 }
 
 @end
