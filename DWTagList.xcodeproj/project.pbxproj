@@ -18,6 +18,7 @@
 		04DEC62015A897B80034CA79 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC61E15A897B80034CA79 /* ViewController_iPad.xib */; };
 		04DEC62915A8988A0034CA79 /* DWTagList.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC62815A8988A0034CA79 /* DWTagList.m */; };
 		04DEC62B15A898EF0034CA79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DEC62A15A898EF0034CA79 /* QuartzCore.framework */; };
+		2D195BD416FBAC890069A5E3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D195BD316FBAC890069A5E3 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		04DEC62715A8988A0034CA79 /* DWTagList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWTagList.h; sourceTree = "<group>"; };
 		04DEC62815A8988A0034CA79 /* DWTagList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWTagList.m; sourceTree = "<group>"; };
 		04DEC62A15A898EF0034CA79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2D195BD316FBAC890069A5E3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		04DEC5F715A897B70034CA79 = {
 			isa = PBXGroup;
 			children = (
+				2D195BD316FBAC890069A5E3 /* Default-568h@2x.png */,
 				04DEC60C15A897B80034CA79 /* DWTagList */,
 				04DEC60515A897B70034CA79 /* Frameworks */,
 				04DEC60315A897B70034CA79 /* Products */,
@@ -172,6 +175,7 @@
 				04DEC61115A897B80034CA79 /* InfoPlist.strings in Resources */,
 				04DEC61D15A897B80034CA79 /* ViewController_iPhone.xib in Resources */,
 				04DEC62015A897B80034CA79 /* ViewController_iPad.xib in Resources */,
+				2D195BD416FBAC890069A5E3 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

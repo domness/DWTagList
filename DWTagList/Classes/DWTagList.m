@@ -31,13 +31,24 @@
 @implementation DWTagList
 
 @synthesize view, textArray;
-@synthesize delegate = _delegate;
+@synthesize tagDelegate = _tagDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:view];
+        [self setClipsToBounds:YES];
+        self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self addSubview:view];
+        [self setClipsToBounds:YES];
         self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
     }
     return self;
@@ -74,8 +85,15 @@
 {
     UITapGestureRecognizer *t = (UITapGestureRecognizer *)sender;
     UILabel *label = (UILabel *)t.view;
-    if(label && self.delegate && [self.delegate respondsToSelector:@selector(selectedTag:)])
-        [self.delegate selectedTag:label.text];
+    if(label && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
+        [self.tagDelegate selectedTag:label.text];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    [self display];
 }
 
 - (void)display
@@ -144,6 +162,7 @@
         }
     }
     sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f);
+    self.contentSize = sizeFit;
 }
 
 - (CGSize)fittedSize
@@ -161,8 +180,8 @@
 {
     UIButton *button = (UIButton*)sender;
     [button setBackgroundColor:[UIColor clearColor]];
-    if(button && self.delegate && [self.delegate respondsToSelector:@selector(selectedTag:)])
-        [self.delegate selectedTag:button.accessibilityLabel];
+    if(button && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
+        [self.tagDelegate selectedTag:button.accessibilityLabel];
 }
 
 - (void)touchDragExit:(id)sender
@@ -175,6 +194,13 @@
 {
     UIButton *button = (UIButton*)sender;
     [button setBackgroundColor:self.highlightedBackgroundColor];
+}
+
+- (void)dealloc
+{
+    view = nil;
+    textArray = nil;
+    lblBackgroundColor = nil;
 }
 
 @end
