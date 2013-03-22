@@ -15,7 +15,7 @@
 
 @end
 
-@interface DWTagList : UIView
+@interface DWTagList : UIScrollView
 {
     UIView *view;
     NSArray *textArray;
@@ -26,7 +26,7 @@
 @property (nonatomic) BOOL viewOnly;
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
-@property (nonatomic, strong) id<DWTagListDelegate> delegate;
+@property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 
 - (void)setLabelBackgroundColor:(UIColor *)color;
