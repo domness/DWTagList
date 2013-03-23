@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
     tagList = [[DWTagList alloc] initWithFrame:CGRectMake(20.0f, 70.0f, 180.0f, 50.0f)];
-    NSArray *array = [[NSArray alloc] initWithObjects:@"Foo", @"Tag Label 1", @"Tag Label 2", @"Tag Label 3", @"Tag Label 4", @"Tag Label 5okoksokaoskaoksokasoaks", nil];
+    NSArray *array = [[NSArray alloc] initWithObjects:@"Foo", @"Tag Label 1", @"Tag Label 2", @"Tag Label 3", @"Tag Label 4", @"Long long long long long long Tag", nil];
     [tagList setTags:array];
     [tagList setTagDelegate:self];
     [self.view addSubview:tagList];
