@@ -105,7 +105,7 @@
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
     for (NSString *text in textArray) {
-        CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:CGSizeMake(self.frame.size.width, 1500) lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:CGSizeMake(self.frame.size.width, FONT_SIZE) lineBreakMode:NSLineBreakByTruncatingTail];
         textSize.width += HORIZONTAL_PADDING*2;
         textSize.height += VERTICAL_PADDING*2;
         UILabel *label = nil;
@@ -131,6 +131,11 @@
         } else {
             [label setBackgroundColor:lblBackgroundColor];
         }
+        
+        CGRect lRect = label.frame;
+        lRect.size.width = MIN(label.frame.size.width, self.frame.size.width);
+        [label setFrame:lRect];
+        
         [label setTextColor:TEXT_COLOR];
         [label setText:text];
         [label setTextAlignment:NSTextAlignmentCenter];
