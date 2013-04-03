@@ -37,5 +37,6 @@ In `DWTagList.m` there are a number of customisable options to change the layout
     #define TEXT_SHADOW_OFFSET CGSizeMake(0.0f, 1.0f)
     #define BORDER_COLOR [UIColor lightGrayColor].CGColor
     #define BORDER_WIDTH 1.0f
-    
+    #define DEFAULT_AUTOMATIC_RESIZE NO
+
 NOTE: In the future, these will be added as methods that can be used to customise the tags after initialisation.

@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
+@property (nonatomic) BOOL automaticResize;
 
 - (void)setLabelBackgroundColor:(UIColor *)color;
 - (void)setLabelHighlightColor:(UIColor *)color;

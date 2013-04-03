@@ -21,6 +21,7 @@
 #define BORDER_COLOR [UIColor lightGrayColor].CGColor
 #define BORDER_WIDTH 1.0f
 #define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:0.40 green:0.80 blue:1.00 alpha:0.5]
+#define DEFAULT_AUTOMATIC_RESIZE NO
 
 @interface DWTagList()
 
@@ -30,7 +31,7 @@
 
 @implementation DWTagList
 
-@synthesize view, textArray;
+@synthesize view, textArray, automaticResize;
 @synthesize tagDelegate = _tagDelegate;
 
 - (id)initWithFrame:(CGRect)frame
@@ -39,6 +40,7 @@
     if (self) {
         [self addSubview:view];
         [self setClipsToBounds:YES];
+        self.automaticResize = DEFAULT_AUTOMATIC_RESIZE;
         self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
     }
     return self;
@@ -59,6 +61,9 @@
     textArray = [[NSArray alloc] initWithArray:array];
     sizeFit = CGSizeZero;
     [self display];
+    if (automaticResize) {
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, sizeFit.width, sizeFit.height);
+    }
 }
 
 - (void)setLabelBackgroundColor:(UIColor *)color
