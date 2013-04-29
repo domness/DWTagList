@@ -30,10 +30,20 @@
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 @property (nonatomic) BOOL automaticResize;
 
-- (void)setLabelBackgroundColor:(UIColor *)color;
-- (void)setLabelHighlightColor:(UIColor *)color;
+- (void)setTagBackgroundColor:(UIColor *)color;
+- (void)setTagHighlightColor:(UIColor *)color;
 - (void)setTags:(NSArray *)array;
 - (void)display;
 - (CGSize)fittedSize;
+
+@end
+
+@interface DWTagView : UIView
+
+@property (nonatomic, strong) UIButton      *button;
+@property (nonatomic, strong) UILabel       *label;
+
+- (id)initWithString:(NSString*)text constrainedToSize:(CGSize)size;
+- (void)setLabelText:(NSString*)text;
 
 @end
