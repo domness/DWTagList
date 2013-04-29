@@ -16,8 +16,12 @@
 
 - (void)selectedTag:(NSString *)tagName{
     
-    UIAlertView *al = [[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"You tapped tag %@",tagName] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    [al show];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message"
+                                                    message:[NSString stringWithFormat:@"You tapped tag %@", tagName]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 - (void)viewDidLoad

@@ -66,13 +66,13 @@
     }
 }
 
-- (void)setLabelBackgroundColor:(UIColor *)color
+- (void)setTagBackgroundColor:(UIColor *)color
 {
     lblBackgroundColor = color;
     [self display];
 }
 
-- (void)setLabelHighlightColor:(UIColor *)color
+- (void)setTagHighlightColor:(UIColor *)color
 {
     self.highlightedBackgroundColor = color;
     [self display];
@@ -89,9 +89,9 @@
 - (void)touchedTag:(id)sender
 {
     UITapGestureRecognizer *t = (UITapGestureRecognizer *)sender;
-    UILabel *label = (UILabel *)t.view;
-    if(label && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
-        [self.tagDelegate selectedTag:label.text];
+    DWTagView *tagView = (DWTagView *)t.view;
+    if(tagView && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
+        [self.tagDelegate selectedTag:tagView.label.text];
 }
 
 - (void)layoutSubviews
@@ -103,72 +103,47 @@
 
 - (void)display
 {
-    for (UILabel *subview in [self subviews]) {
+    for (DWTagView *subview in [self subviews]) {
         [subview removeFromSuperview];
     }
     float totalHeight = 0;
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
     for (NSString *text in textArray) {
-        CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:CGSizeMake(self.frame.size.width, FONT_SIZE) lineBreakMode:NSLineBreakByTruncatingTail];
-        textSize.width += HORIZONTAL_PADDING*2;
-        textSize.height += VERTICAL_PADDING*2;
-        UILabel *label = nil;
+        DWTagView *tagView = [[DWTagView alloc] initWithString:text
+                                             constrainedToSize:CGSizeMake(self.frame.size.width-HORIZONTAL_PADDING*2, self.frame.size.height)];
         if (!gotPreviousFrame) {
-            label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
-            totalHeight = textSize.height;
+            totalHeight = tagView.frame.size.height;
         } else {
             CGRect newRect = CGRectZero;
-            if (previousFrame.origin.x + previousFrame.size.width + textSize.width + LABEL_MARGIN > self.frame.size.width) {
-                newRect.origin = CGPointMake(0, previousFrame.origin.y + textSize.height + BOTTOM_MARGIN);
-                totalHeight += textSize.height + BOTTOM_MARGIN;
+            if (previousFrame.origin.x + previousFrame.size.width + tagView.frame.size.width + LABEL_MARGIN > self.frame.size.width) {
+                newRect.origin = CGPointMake(0, previousFrame.origin.y + tagView.frame.size.height + BOTTOM_MARGIN);
+                totalHeight += tagView.frame.size.height + BOTTOM_MARGIN;
             } else {
                 newRect.origin = CGPointMake(previousFrame.origin.x + previousFrame.size.width + LABEL_MARGIN, previousFrame.origin.y);
             }
-            newRect.size = textSize;
-            label = [[UILabel alloc] initWithFrame:newRect];
+            newRect.size = tagView.frame.size;
+            [tagView setFrame:newRect];
         }
-        previousFrame = label.frame;
+        
+        previousFrame = tagView.frame;
         gotPreviousFrame = YES;
-        [label setFont:[UIFont systemFontOfSize:FONT_SIZE]];
-        if (!lblBackgroundColor) {
-            [label setBackgroundColor:BACKGROUND_COLOR];
-        } else {
-            [label setBackgroundColor:lblBackgroundColor];
-        }
-        
-        CGRect lRect = label.frame;
-        lRect.size.width = MIN(label.frame.size.width, self.frame.size.width);
-        [label setFrame:lRect];
-        
-        [label setTextColor:TEXT_COLOR];
-        [label setText:text];
-        [label setTextAlignment:NSTextAlignmentCenter];
-        [label setShadowColor:TEXT_SHADOW_COLOR];
-        [label setShadowOffset:TEXT_SHADOW_OFFSET];
-        [label.layer setMasksToBounds:YES];
-        [label.layer setCornerRadius:CORNER_RADIUS];
-        [label.layer setBorderColor:BORDER_COLOR];
-        [label.layer setBorderWidth: BORDER_WIDTH];
-        
-        //Davide Cenzi, added gesture recognizer to label
+
+        [tagView setBackgroundColor:[self getBackgroundColor]];
+
+        // Davide Cenzi, added gesture recognizer to label
         UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTag:)];
         // if labelView is not set userInteractionEnabled, you must do so
-        [label setUserInteractionEnabled:YES];
-        [label addGestureRecognizer:gesture];
+        [tagView setUserInteractionEnabled:YES];
+        [tagView addGestureRecognizer:gesture];
         
-        [self addSubview:label];
+        [self addSubview:tagView];
 
         if (!_viewOnly) {
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            [button setFrame:label.frame];
-            [button setAccessibilityLabel:label.text];
-            [button.layer setCornerRadius:CORNER_RADIUS];
-            [button addTarget:self action:@selector(touchDownInside:) forControlEvents:UIControlEventTouchDown];
-            [button addTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-            [button addTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
-            [button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
-            [self addSubview:button];
+            [tagView.button addTarget:self action:@selector(touchDownInside:) forControlEvents:UIControlEventTouchDown];
+            [tagView.button addTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [tagView.button addTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+            [tagView.button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
         }
     }
     sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f);
@@ -183,13 +158,13 @@
 - (void)touchDownInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
-    [button setBackgroundColor:self.highlightedBackgroundColor];
+    [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
 }
 
 - (void)touchUpInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
-    [button setBackgroundColor:[UIColor clearColor]];
+    [[button superview] setBackgroundColor:[self getBackgroundColor]];
     if(button && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
         [self.tagDelegate selectedTag:button.accessibilityLabel];
 }
@@ -197,13 +172,22 @@
 - (void)touchDragExit:(id)sender
 {
     UIButton *button = (UIButton*)sender;
-    [button setBackgroundColor:[UIColor clearColor]];
+    [[button superview] setBackgroundColor:[self getBackgroundColor]];
 }
 
 - (void)touchDragInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
-    [button setBackgroundColor:self.highlightedBackgroundColor];
+    [[button superview] setBackgroundColor:[self getBackgroundColor]];
+}
+     
+- (UIColor *)getBackgroundColor
+{
+     if (!lblBackgroundColor) {
+         return BACKGROUND_COLOR;
+     } else {
+         return lblBackgroundColor;
+     }
 }
 
 - (void)dealloc
@@ -211,6 +195,53 @@
     view = nil;
     textArray = nil;
     lblBackgroundColor = nil;
+}
+
+@end
+
+
+@implementation DWTagView
+
+- (id)initWithString:(NSString*)text constrainedToSize:(CGSize)size
+{
+    self = [super init];
+    if(self) {
+        CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:CGSizeMake(size.width, FONT_SIZE) lineBreakMode:NSLineBreakByTruncatingTail];
+        textSize.height += VERTICAL_PADDING*2;
+        self.frame = CGRectMake(0, 0, textSize.width+HORIZONTAL_PADDING*2, textSize.height);
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(HORIZONTAL_PADDING, 0, textSize.width, textSize.height)];
+        CGRect lRect = _label.frame;
+        lRect.size.width = MIN(_label.frame.size.width, self.frame.size.width);
+        [_label setFont:[UIFont systemFontOfSize:FONT_SIZE]];
+        [_label setFrame:lRect];
+        [_label setTextColor:TEXT_COLOR];
+        [_label setText:text];
+        [_label setTextAlignment:NSTextAlignmentCenter];
+        [_label setShadowColor:TEXT_SHADOW_COLOR];
+        [_label setShadowOffset:TEXT_SHADOW_OFFSET];
+        [_label setBackgroundColor:[UIColor clearColor]];
+        [self.layer setMasksToBounds:YES];
+        [self.layer setCornerRadius:CORNER_RADIUS];
+        [self.layer setBorderColor:BORDER_COLOR];
+        [self.layer setBorderWidth: BORDER_WIDTH];
+        [self addSubview:_label];
+        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_button setFrame:self.frame];
+        [_button setAccessibilityLabel:self.label.text];
+        [self addSubview:_button];
+    }
+    return self;
+}
+
+- (void)setLabelText:(NSString*)text
+{
+    [_label setText:text];
+}
+
+- (void)dealloc
+{
+    _label = nil;
+    _button = nil;
 }
 
 @end
