@@ -40,3 +40,9 @@ In `DWTagList.m` there are a number of customisable options to change the layout
     #define DEFAULT_AUTOMATIC_RESIZE NO
 
 NOTE: In the future, these will be added as methods that can be used to customise the tags after initialisation.
+
+## License
+
+I have included the license in the `LICENSE` file. I've got it as the MIT license, mainly because I want people to do what they want with this library.
+
+If you do something cool, or find any problems, please create a pull request and I will look at including any of your changes into this project.
