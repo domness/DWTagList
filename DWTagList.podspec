@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = 'MIT'
   s.author       = { "Dominic Wroblewski" => "domness@gmail.com" }
   s.source       = { :git => "https://github.com/domness/DWTagList.git", :tag => "v0.1" }
-  s.platform     = :ios
+  s.platform     = :ios, '5.0'
   s.source_files = 'DWTagList/Classes/*.{h,m}'
   s.requires_arc = true
 end
