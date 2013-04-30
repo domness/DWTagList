@@ -8,4 +8,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/domness/DWTagList.git", :tag => "v0.1" }
   s.platform     = :ios
   s.source_files = 'DWTagList/Classes/*.{h,m}'
+  s.requires_arc = true
 end
