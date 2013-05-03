@@ -113,8 +113,10 @@
 
 - (void)display
 {
+    NSMutableArray *tagViews = [NSMutableArray array];
     for (DWTagView *subview in [self subviews]) {
         [subview removeFromSuperview];
+        [tagViews addObject:subview];
     }
     float totalHeight = 0;
     CGRect previousFrame = CGRectZero;
@@ -123,11 +125,22 @@
     UIFont *font;
     
     for (NSString *text in textArray) {
-        DWTagView *tagView = [[DWTagView alloc] initWithString:text
-                                                          font:self.font
-                                             constrainedToSize:CGSizeMake(self.frame.size.width-self.horizontalPadding*2, self.frame.size.height)
-                                                       padding:CGSizeMake(self.horizontalPadding, self.verticalPadding)
-                              ];
+        DWTagView *tagView;
+        if (tagViews.count > 0) {
+            tagView = [tagViews lastObject];
+            [tagViews removeLastObject];
+        }
+        else {
+            tagView = [[DWTagView alloc] init];
+        }
+        
+        [tagView updateWithString:text
+                           font:self.font
+              constrainedToSize:CGSizeMake(self.frame.size.width-self.horizontalPadding*2, self.frame.size.height)
+                        padding:CGSizeMake(self.horizontalPadding, self.verticalPadding)
+                     minimumWidth:self.minimumWidth
+         ];
+        
         if (!gotPreviousFrame) {
             totalHeight = tagView.frame.size.height;
         } else {
@@ -218,35 +231,45 @@
 
 @implementation DWTagView
 
-- (id)initWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding
-{
+- (id)init {
     self = [super init];
-    if(self) {
-        CGSize textSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(size.width, size.height) lineBreakMode:NSLineBreakByTruncatingTail];
-        textSize.height += padding.height*2;
-        self.frame = CGRectMake(0, 0, textSize.width+padding.width*2, textSize.height);
-        _label = [[UILabel alloc] initWithFrame:CGRectMake(padding.width, 0, textSize.width, textSize.height)];
-        CGRect lRect = _label.frame;
-        lRect.size.width = MIN(_label.frame.size.width, self.frame.size.width);
-        [_label setFont:font];
-        [_label setFrame:lRect];
+    if (self) {
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         [_label setTextColor:TEXT_COLOR];
-        [_label setText:text];
-        [_label setTextAlignment:NSTextAlignmentCenter];
         [_label setShadowColor:TEXT_SHADOW_COLOR];
         [_label setShadowOffset:TEXT_SHADOW_OFFSET];
         [_label setBackgroundColor:[UIColor clearColor]];
+        [_label setTextAlignment:NSTextAlignmentCenter];
+        [self addSubview:_label];
+        
+        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        _button.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        [_button setFrame:self.frame];
+        [_button setAccessibilityLabel:self.label.text];
+        [self addSubview:_button];
+        
         [self.layer setMasksToBounds:YES];
         [self.layer setCornerRadius:CORNER_RADIUS];
         [self.layer setBorderColor:BORDER_COLOR];
         [self.layer setBorderWidth: BORDER_WIDTH];
-        [self addSubview:_label];
-        _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_button setFrame:self.frame];
-        [_button setAccessibilityLabel:self.label.text];
-        [self addSubview:_button];
     }
     return self;
+}
+
+- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth
+{
+
+    CGSize textSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(size.width, size.height) lineBreakMode:NSLineBreakByTruncatingTail];
+    textSize.width = MAX(textSize.width, minimumWidth);
+    textSize.height += padding.height*2;
+
+    self.frame = CGRectMake(0, 0, textSize.width+padding.width*2, textSize.height);
+    _label.frame = CGRectMake(padding.width, 0, textSize.width, textSize.height);
+    CGRect lRect = _label.frame;
+    lRect.size.width = MIN(_label.frame.size.width, self.frame.size.width);
+    [_label setFont:font];
+    [_label setFrame:lRect];
+    [_label setText:text];
 }
 
 - (void)setLabelText:(NSString*)text

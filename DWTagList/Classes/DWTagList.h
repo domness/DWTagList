@@ -34,6 +34,7 @@
 @property (nonatomic, assign) CGFloat bottomMargin;
 @property (nonatomic, assign) CGFloat horizontalPadding;
 @property (nonatomic, assign) CGFloat verticalPadding;
+@property (nonatomic, assign) CGFloat minimumWidth;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
@@ -48,7 +49,7 @@
 @property (nonatomic, strong) UIButton      *button;
 @property (nonatomic, strong) UILabel       *label;
 
-- (id)initWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding;
+- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth;
 - (void)setLabelText:(NSString*)text;
 
 @end
