@@ -117,9 +117,18 @@
 - (void)display
 {
     NSMutableArray *tagViews = [NSMutableArray array];
-    for (DWTagView *subview in [self subviews]) {
+    for (UIView *subview in [self subviews]) {
+        if ([subview isKindOfClass:[DWTagView class]]) {
+            DWTagView *tagView = subview;
+            for (UIGestureRecognizer *gesture in [subview gestureRecognizers]) {
+                [subview removeGestureRecognizer:gesture];
+            }
+            
+            [tagView.button removeTarget:nil action:nil forControlEvents:UIControlEventAllEvents];
+            
+            [tagViews addObject:subview];
+        }
         [subview removeFromSuperview];
-        [tagViews addObject:subview];
     }
     float totalHeight = 0;
     CGRect previousFrame = CGRectZero;
@@ -248,7 +257,6 @@
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
         _button.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [_button setFrame:self.frame];
-        [_button setAccessibilityLabel:self.label.text];
         [self addSubview:_button];
         
         [self.layer setMasksToBounds:YES];
@@ -273,6 +281,8 @@
     [_label setFont:font];
     [_label setFrame:lRect];
     [_label setText:text];
+    
+    [_button setAccessibilityLabel:self.label.text];
 }
 
 - (void)setLabelText:(NSString*)text
