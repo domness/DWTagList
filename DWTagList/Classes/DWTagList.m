@@ -9,11 +9,11 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define CORNER_RADIUS 10.0f
-#define LABEL_MARGIN 5.0f
-#define BOTTOM_MARGIN 5.0f
-#define FONT_SIZE 13.0f
-#define HORIZONTAL_PADDING 7.0f
-#define VERTICAL_PADDING 3.0f
+#define LABEL_MARGIN_DEFAULT 5.0f
+#define BOTTOM_MARGIN_DEFAULT 5.0f
+#define FONT_SIZE_DEFAULT 13.0f
+#define HORIZONTAL_PADDING_DEFAULT 7.0f
+#define VERTICAL_PADDING_DEFAULT 3.0f
 #define BACKGROUND_COLOR [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.00]
 #define TEXT_COLOR [UIColor blackColor]
 #define TEXT_SHADOW_COLOR [UIColor whiteColor]
@@ -42,6 +42,11 @@
         [self setClipsToBounds:YES];
         self.automaticResize = DEFAULT_AUTOMATIC_RESIZE;
         self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
+        self.font = [UIFont systemFontOfSize:FONT_SIZE_DEFAULT];
+        self.labelMargin = LABEL_MARGIN_DEFAULT;
+        self.bottomMargin = BOTTOM_MARGIN_DEFAULT;
+        self.horizontalPadding = HORIZONTAL_PADDING_DEFAULT;
+        self.verticalPadding = VERTICAL_PADDING_DEFAULT;
     }
     return self;
 }
@@ -52,6 +57,11 @@
         [self addSubview:view];
         [self setClipsToBounds:YES];
         self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
+        self.font = [UIFont systemFontOfSize:FONT_SIZE_DEFAULT];
+        self.labelMargin = LABEL_MARGIN_DEFAULT;
+        self.bottomMargin = BOTTOM_MARGIN_DEFAULT;
+        self.horizontalPadding = HORIZONTAL_PADDING_DEFAULT;
+        self.verticalPadding = VERTICAL_PADDING_DEFAULT;
     }
     return self;
 }
@@ -109,18 +119,24 @@
     float totalHeight = 0;
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
+    
+    UIFont *font;
+    
     for (NSString *text in textArray) {
         DWTagView *tagView = [[DWTagView alloc] initWithString:text
-                                             constrainedToSize:CGSizeMake(self.frame.size.width-HORIZONTAL_PADDING*2, self.frame.size.height)];
+                                                          font:self.font
+                                             constrainedToSize:CGSizeMake(self.frame.size.width-self.horizontalPadding*2, self.frame.size.height)
+                                                       padding:CGSizeMake(self.horizontalPadding, self.verticalPadding)
+                              ];
         if (!gotPreviousFrame) {
             totalHeight = tagView.frame.size.height;
         } else {
             CGRect newRect = CGRectZero;
-            if (previousFrame.origin.x + previousFrame.size.width + tagView.frame.size.width + LABEL_MARGIN > self.frame.size.width) {
-                newRect.origin = CGPointMake(0, previousFrame.origin.y + tagView.frame.size.height + BOTTOM_MARGIN);
-                totalHeight += tagView.frame.size.height + BOTTOM_MARGIN;
+            if (previousFrame.origin.x + previousFrame.size.width + tagView.frame.size.width + self.labelMargin > self.frame.size.width) {
+                newRect.origin = CGPointMake(0, previousFrame.origin.y + tagView.frame.size.height + self.bottomMargin);
+                totalHeight += tagView.frame.size.height + self.bottomMargin;
             } else {
-                newRect.origin = CGPointMake(previousFrame.origin.x + previousFrame.size.width + LABEL_MARGIN, previousFrame.origin.y);
+                newRect.origin = CGPointMake(previousFrame.origin.x + previousFrame.size.width + self.labelMargin, previousFrame.origin.y);
             }
             newRect.size = tagView.frame.size;
             [tagView setFrame:newRect];
@@ -202,17 +218,17 @@
 
 @implementation DWTagView
 
-- (id)initWithString:(NSString*)text constrainedToSize:(CGSize)size
+- (id)initWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding
 {
     self = [super init];
     if(self) {
-        CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:CGSizeMake(size.width, FONT_SIZE) lineBreakMode:NSLineBreakByTruncatingTail];
-        textSize.height += VERTICAL_PADDING*2;
-        self.frame = CGRectMake(0, 0, textSize.width+HORIZONTAL_PADDING*2, textSize.height);
-        _label = [[UILabel alloc] initWithFrame:CGRectMake(HORIZONTAL_PADDING, 0, textSize.width, textSize.height)];
+        CGSize textSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(size.width, size.height) lineBreakMode:NSLineBreakByTruncatingTail];
+        textSize.height += padding.height*2;
+        self.frame = CGRectMake(0, 0, textSize.width+padding.width*2, textSize.height);
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(padding.width, 0, textSize.width, textSize.height)];
         CGRect lRect = _label.frame;
         lRect.size.width = MIN(_label.frame.size.width, self.frame.size.width);
-        [_label setFont:[UIFont systemFontOfSize:FONT_SIZE]];
+        [_label setFont:font];
         [_label setFrame:lRect];
         [_label setTextColor:TEXT_COLOR];
         [_label setText:text];

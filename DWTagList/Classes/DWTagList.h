@@ -29,6 +29,11 @@
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 @property (nonatomic) BOOL automaticResize;
+@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, assign) CGFloat labelMargin;
+@property (nonatomic, assign) CGFloat bottomMargin;
+@property (nonatomic, assign) CGFloat horizontalPadding;
+@property (nonatomic, assign) CGFloat verticalPadding;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
@@ -43,7 +48,7 @@
 @property (nonatomic, strong) UIButton      *button;
 @property (nonatomic, strong) UILabel       *label;
 
-- (id)initWithString:(NSString*)text constrainedToSize:(CGSize)size;
+- (id)initWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding;
 - (void)setLabelText:(NSString*)text;
 
 @end
