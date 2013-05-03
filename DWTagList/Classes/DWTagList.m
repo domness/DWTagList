@@ -70,29 +70,32 @@
 {
     textArray = [[NSArray alloc] initWithArray:array];
     sizeFit = CGSizeZero;
-    [self display];
     if (automaticResize) {
+        [self display];
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, sizeFit.width, sizeFit.height);
+    }
+    else {
+        [self setNeedsLayout];
     }
 }
 
 - (void)setTagBackgroundColor:(UIColor *)color
 {
     lblBackgroundColor = color;
-    [self display];
+    [self setNeedsLayout];
 }
 
 - (void)setTagHighlightColor:(UIColor *)color
 {
     self.highlightedBackgroundColor = color;
-    [self display];
+    [self setNeedsLayout];
 }
 
 - (void)setViewOnly:(BOOL)viewOnly
 {
     if (_viewOnly != viewOnly) {
         _viewOnly = viewOnly;
-        [self display];
+        [self setNeedsLayout];
     }
 }
 
