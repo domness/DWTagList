@@ -130,7 +130,7 @@
         }
         [subview removeFromSuperview];
     }
-    float totalHeight = 0;
+
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
     
@@ -151,13 +151,10 @@
                      minimumWidth:self.minimumWidth
          ];
         
-        if (!gotPreviousFrame) {
-            totalHeight = tagView.frame.size.height;
-        } else {
+        if (gotPreviousFrame) {
             CGRect newRect = CGRectZero;
             if (previousFrame.origin.x + previousFrame.size.width + tagView.frame.size.width + self.labelMargin > self.frame.size.width) {
                 newRect.origin = CGPointMake(0, previousFrame.origin.y + tagView.frame.size.height + self.bottomMargin);
-                totalHeight += tagView.frame.size.height + self.bottomMargin;
             } else {
                 newRect.origin = CGPointMake(previousFrame.origin.x + previousFrame.size.width + self.labelMargin, previousFrame.origin.y);
             }
@@ -186,7 +183,7 @@
         }
     }
 
-    sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f + 100);
+    sizeFit = CGSizeMake(self.frame.size.width, previousFrame.origin.y + previousFrame.size.height + self.bottomMargin + 1.0f);
     self.contentSize = sizeFit;
 }
 
