@@ -49,7 +49,7 @@
 @property (nonatomic, strong) UIButton      *button;
 @property (nonatomic, strong) UILabel       *label;
 
-- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth;
+- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToWidth:(CGFloat)maxWidth padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth;
 - (void)setLabelText:(NSString*)text;
 
 @end

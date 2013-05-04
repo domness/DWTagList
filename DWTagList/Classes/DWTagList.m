@@ -146,7 +146,7 @@
         
         [tagView updateWithString:text
                            font:self.font
-              constrainedToSize:CGSizeMake(self.frame.size.width-self.horizontalPadding*2, self.frame.size.height)
+              constrainedToWidth:self.frame.size.width - (self.horizontalPadding * 2)
                         padding:CGSizeMake(self.horizontalPadding, self.verticalPadding)
                      minimumWidth:self.minimumWidth
          ];
@@ -263,20 +263,17 @@
     return self;
 }
 
-- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToSize:(CGSize)size padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth
+- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToWidth:(CGFloat)maxWidth padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth
 {
-
-    CGSize textSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(size.width, size.height) lineBreakMode:NSLineBreakByTruncatingTail];
+    CGSize textSize = [text sizeWithFont:font forWidth:maxWidth lineBreakMode:NSLineBreakByTruncatingTail];
+    
     textSize.width = MAX(textSize.width, minimumWidth);
     textSize.height += padding.height*2;
 
     self.frame = CGRectMake(0, 0, textSize.width+padding.width*2, textSize.height);
-    _label.frame = CGRectMake(padding.width, 0, textSize.width, textSize.height);
-    CGRect lRect = _label.frame;
-    lRect.size.width = MIN(_label.frame.size.width, self.frame.size.width);
-    [_label setFont:font];
-    [_label setFrame:lRect];
-    [_label setText:text];
+    _label.frame = CGRectMake(padding.width, 0, MIN(textSize.width, self.frame.size.width), textSize.height);
+    _label.font = font;
+    _label.text = text;
     
     [_button setAccessibilityLabel:self.label.text];
 }
