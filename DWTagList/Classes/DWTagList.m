@@ -119,7 +119,7 @@
     NSMutableArray *tagViews = [NSMutableArray array];
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[DWTagView class]]) {
-            DWTagView *tagView = subview;
+            DWTagView *tagView = (DWTagView*)subview;
             for (UIGestureRecognizer *gesture in [subview gestureRecognizers]) {
                 [subview removeGestureRecognizer:gesture];
             }
@@ -133,8 +133,6 @@
     float totalHeight = 0;
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
-    
-    UIFont *font;
     
     for (NSString *text in textArray) {
         DWTagView *tagView;
@@ -166,7 +164,7 @@
             newRect.size = tagView.frame.size;
             [tagView setFrame:newRect];
         }
-        
+
         previousFrame = tagView.frame;
         gotPreviousFrame = YES;
 
@@ -187,7 +185,8 @@
             [tagView.button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
         }
     }
-    sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f);
+
+    sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f + 100);
     self.contentSize = sizeFit;
 }
 
