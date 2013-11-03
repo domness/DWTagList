@@ -17,10 +17,10 @@
 
 @interface DWTagList : UIScrollView
 {
-    UIView *view;
-    NSArray *textArray;
-    CGSize sizeFit;
-    UIColor *lblBackgroundColor;
+    UIView      *view;
+    NSArray     *textArray;
+    CGSize      sizeFit;
+    UIColor     *lblBackgroundColor;
 }
 
 @property (nonatomic) BOOL viewOnly;
@@ -35,6 +35,9 @@
 @property (nonatomic, assign) CGFloat horizontalPadding;
 @property (nonatomic, assign) CGFloat verticalPadding;
 @property (nonatomic, assign) CGFloat minimumWidth;
+@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGColorRef borderColor;
+@property (nonatomic, assign) CGFloat borderWidth;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
@@ -49,7 +52,14 @@
 @property (nonatomic, strong) UIButton      *button;
 @property (nonatomic, strong) UILabel       *label;
 
-- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToWidth:(CGFloat)maxWidth padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth;
+- (void)updateWithString:(NSString*)text
+                    font:(UIFont*)font
+      constrainedToWidth:(CGFloat)maxWidth
+                 padding:(CGSize)padding
+            minimumWidth:(CGFloat)minimumWidth;
 - (void)setLabelText:(NSString*)text;
+- (void)setCornerRadius:(CGFloat)cornerRadius;
+- (void)setBorderColor:(CGColorRef)borderColor;
+- (void)setBorderWidth:(CGFloat)borderWidth;
 
 @end

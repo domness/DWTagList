@@ -47,6 +47,9 @@
         self.bottomMargin = BOTTOM_MARGIN_DEFAULT;
         self.horizontalPadding = HORIZONTAL_PADDING_DEFAULT;
         self.verticalPadding = VERTICAL_PADDING_DEFAULT;
+        self.cornerRadius = CORNER_RADIUS;
+        self.borderColor = BORDER_COLOR;
+        self.borderWidth = BORDER_WIDTH;
     }
     return self;
 }
@@ -62,6 +65,9 @@
         self.bottomMargin = BOTTOM_MARGIN_DEFAULT;
         self.horizontalPadding = HORIZONTAL_PADDING_DEFAULT;
         self.verticalPadding = VERTICAL_PADDING_DEFAULT;
+        self.cornerRadius = CORNER_RADIUS;
+        self.borderColor = BORDER_COLOR;
+        self.borderWidth = BORDER_WIDTH;
     }
     return self;
 }
@@ -144,6 +150,7 @@
             tagView = [[DWTagView alloc] init];
         }
         
+        
         [tagView updateWithString:text
                            font:self.font
               constrainedToWidth:self.frame.size.width - (self.horizontalPadding * 2)
@@ -166,6 +173,9 @@
         gotPreviousFrame = YES;
 
         [tagView setBackgroundColor:[self getBackgroundColor]];
+        [tagView setCornerRadius:self.cornerRadius];
+        [tagView setBorderColor:self.borderColor];
+        [tagView setBorderWidth:self.borderWidth];
 
         // Davide Cenzi, added gesture recognizer to label
         UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTag:)];
@@ -227,6 +237,24 @@
      }
 }
 
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    _cornerRadius = cornerRadius;
+    [self setNeedsLayout];
+}
+
+- (void)setBorderColor:(CGColorRef)borderColor
+{
+    _borderColor = borderColor;
+    [self setNeedsLayout];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth
+{
+    _borderWidth = borderWidth;
+    [self setNeedsLayout];
+}
+
 - (void)dealloc
 {
     view = nil;
@@ -239,7 +267,8 @@
 
 @implementation DWTagView
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
@@ -254,11 +283,11 @@
         _button.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [_button setFrame:self.frame];
         [self addSubview:_button];
-        
+
         [self.layer setMasksToBounds:YES];
         [self.layer setCornerRadius:CORNER_RADIUS];
         [self.layer setBorderColor:BORDER_COLOR];
-        [self.layer setBorderWidth: BORDER_WIDTH];
+        [self.layer setBorderWidth:BORDER_WIDTH];
     }
     return self;
 }
@@ -276,6 +305,21 @@
     _label.text = text;
     
     [_button setAccessibilityLabel:self.label.text];
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    [self.layer setCornerRadius:cornerRadius];
+}
+
+- (void)setBorderColor:(CGColorRef)borderColor
+{
+    [self.layer setBorderColor:borderColor];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth
+{
+    [self.layer setBorderWidth:borderWidth];
 }
 
 - (void)setLabelText:(NSString*)text

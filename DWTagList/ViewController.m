@@ -27,12 +27,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    tagList = [[DWTagList alloc] initWithFrame:CGRectMake(20.0f, 70.0f, 180.0f, 50.0f)];
-    [tagList setAutomaticResize:YES];
-    NSArray *array = [[NSArray alloc] initWithObjects:@"Foo", @"Tag Label 1", @"Tag Label 2", @"Tag Label 3", @"Tag Label 4", @"Long long long long long long Tag", nil];
-    [tagList setTags:array];
-    [tagList setTagDelegate:self];
-    [self.view addSubview:tagList];
+    _tagList = [[DWTagList alloc] initWithFrame:CGRectMake(20.0f, 70.0f, self.view.bounds.size.width-40.0f, 50.0f)];
+    [_tagList setAutomaticResize:YES];
+    _array = [[NSMutableArray alloc] initWithObjects:@"Foo",
+                        @"Tag Label 1",
+                        @"Tag Label 2",
+                        @"Tag Label 3",
+                        @"Tag Label 4",
+                        @"Long long long long long long Tag", nil];
+    [_tagList setTags:_array];
+    [_tagList setTagDelegate:self];
+
+    // Customisation
+    [_tagList setCornerRadius:4.0f];
+    [_tagList setBorderColor:[UIColor lightGrayColor].CGColor];
+    [_tagList setBorderWidth:1.0f];
+
+    [self.view addSubview:_tagList];
+}
+
+- (IBAction)tappedAdd:(id)sender
+{
+    [_addTagField resignFirstResponder];
+    [_array addObject:[_addTagField text]];
+    [_addTagField setText:@""];
+    [_tagList setTags:_array];
 }
 
 - (void)viewDidUnload

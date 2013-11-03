@@ -10,8 +10,11 @@
 #import "DWTagList.h"
 
 @interface ViewController : UIViewController <DWTagListDelegate>
-{
-    DWTagList *tagList;
-}
+
+@property (nonatomic, strong) NSMutableArray        *array;
+@property (nonatomic, strong) DWTagList             *tagList;
+@property (nonatomic, weak) IBOutlet UITextField    *addTagField;
+
+- (IBAction)tappedAdd:(id)sender;
 
 @end
