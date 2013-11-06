@@ -38,6 +38,7 @@
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) CGColorRef borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, assign) UIColor *textColor;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
@@ -61,5 +62,6 @@
 - (void)setCornerRadius:(CGFloat)cornerRadius;
 - (void)setBorderColor:(CGColorRef)borderColor;
 - (void)setBorderWidth:(CGFloat)borderWidth;
+- (void)setTextColor:(UIColor*)textColor;
 
 @end
