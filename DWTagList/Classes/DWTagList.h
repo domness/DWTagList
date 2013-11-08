@@ -39,6 +39,7 @@
 @property (nonatomic, assign) CGColorRef borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, assign) UIColor *textColor;
+@property (nonatomic, assign) UIColor *textShadowColor;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
@@ -63,5 +64,6 @@
 - (void)setBorderColor:(CGColorRef)borderColor;
 - (void)setBorderWidth:(CGFloat)borderWidth;
 - (void)setTextColor:(UIColor*)textColor;
+- (void)setTextShadowColor:(UIColor*)textShadowColor;
 
 @end
