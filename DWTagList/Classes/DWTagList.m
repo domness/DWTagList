@@ -52,6 +52,7 @@
         self.borderWidth = BORDER_WIDTH;
         self.textColor = TEXT_COLOR;
         self.textShadowColor = TEXT_SHADOW_COLOR;
+        self.textShadowOffset = TEXT_SHADOW_OFFSET;
     }
     return self;
 }
@@ -72,6 +73,7 @@
         self.borderWidth = BORDER_WIDTH;
         self.textColor = TEXT_COLOR;
         self.textShadowColor = TEXT_SHADOW_COLOR;
+        self.textShadowOffset = TEXT_SHADOW_OFFSET;
     }
     return self;
 }
@@ -182,6 +184,7 @@
         [tagView setBorderWidth:self.borderWidth];
         [tagView setTextColor:self.textColor];
         [tagView setTextShadowColor:self.textShadowColor];
+        [tagView setTextShadowOffset:self.textShadowOffset];
 
         // Davide Cenzi, added gesture recognizer to label
         UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTag:)];
@@ -273,6 +276,12 @@
     [self setNeedsLayout];
 }
 
+- (void)setTextShadowOffset:(CGSize)textShadowOffset
+{
+    _textShadowOffset = textShadowOffset;
+    [self setNeedsLayout];
+}
+
 - (void)dealloc
 {
     view = nil;
@@ -353,6 +362,11 @@
 - (void)setTextShadowColor:(UIColor*)textShadowColor
 {
     [_label setShadowColor:textShadowColor];
+}
+
+- (void)setTextShadowOffset:(CGSize)textShadowOffset
+{
+    [_label setShadowOffset:textShadowOffset];
 }
 
 - (void)dealloc
