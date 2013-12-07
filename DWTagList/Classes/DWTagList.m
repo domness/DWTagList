@@ -146,7 +146,7 @@
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
     
-    for (NSString *text in textArray) {
+    for (id text in textArray) {
         DWTagView *tagView;
         if (tagViews.count > 0) {
             tagView = [tagViews lastObject];
@@ -319,9 +319,21 @@
     return self;
 }
 
-- (void)updateWithString:(NSString*)text font:(UIFont*)font constrainedToWidth:(CGFloat)maxWidth padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth
+- (void)updateWithString:(id)text font:(UIFont*)font constrainedToWidth:(CGFloat)maxWidth padding:(CGSize)padding minimumWidth:(CGFloat)minimumWidth
 {
-    CGSize textSize = [text sizeWithFont:font forWidth:maxWidth lineBreakMode:NSLineBreakByTruncatingTail];
+    CGSize textSize = CGSizeZero;
+    BOOL isTextAttributedString = [text isKindOfClass:[NSAttributedString class]];
+    
+    if (isTextAttributedString) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:text];
+        [attributedString addAttributes:@{NSFontAttributeName: font} range:NSMakeRange(0, ((NSAttributedString *)text).string.length)];
+        
+        textSize = [attributedString boundingRectWithSize:CGSizeMake(maxWidth, 0) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+        _label.attributedText = [attributedString copy];
+    } else {
+        textSize = [text sizeWithFont:font forWidth:maxWidth lineBreakMode:NSLineBreakByTruncatingTail];
+        _label.text = text;
+    }
     
     textSize.width = MAX(textSize.width, minimumWidth);
     textSize.height += padding.height*2;
@@ -329,7 +341,6 @@
     self.frame = CGRectMake(0, 0, textSize.width+padding.width*2, textSize.height);
     _label.frame = CGRectMake(padding.width, 0, MIN(textSize.width, self.frame.size.width), textSize.height);
     _label.font = font;
-    _label.text = text;
     
     [_button setAccessibilityLabel:self.label.text];
 }
