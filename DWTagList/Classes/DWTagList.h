@@ -29,7 +29,7 @@
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 @property (nonatomic) BOOL automaticResize;
-@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, strong) UIFont *font;
 @property (nonatomic, assign) CGFloat labelMargin;
 @property (nonatomic, assign) CGFloat bottomMargin;
 @property (nonatomic, assign) CGFloat horizontalPadding;
@@ -38,8 +38,8 @@
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) CGColorRef borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
-@property (nonatomic, assign) UIColor *textColor;
-@property (nonatomic, assign) UIColor *textShadowColor;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *textShadowColor;
 @property (nonatomic, assign) CGSize textShadowOffset;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
