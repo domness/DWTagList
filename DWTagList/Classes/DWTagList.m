@@ -22,17 +22,15 @@
 #define BORDER_WIDTH 1.0f
 #define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:0.40 green:0.80 blue:1.00 alpha:0.5]
 #define DEFAULT_AUTOMATIC_RESIZE NO
+#define DEFAULT_SHOW_TAG_MENU NO
 
-@interface DWTagList()
-
-- (void)touchedTag:(id)sender;
+@interface DWTagList () <DWTagViewDelegate>
 
 @end
 
 @implementation DWTagList
 
 @synthesize view, textArray, automaticResize;
-@synthesize tagDelegate = _tagDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -53,6 +51,7 @@
         self.textColor = TEXT_COLOR;
         self.textShadowColor = TEXT_SHADOW_COLOR;
         self.textShadowOffset = TEXT_SHADOW_OFFSET;
+        self.showTagMenu = DEFAULT_SHOW_TAG_MENU;
     }
     return self;
 }
@@ -74,6 +73,7 @@
         self.textColor = TEXT_COLOR;
         self.textShadowColor = TEXT_SHADOW_COLOR;
         self.textShadowOffset = TEXT_SHADOW_OFFSET;
+        self.showTagMenu = DEFAULT_SHOW_TAG_MENU;
     }
     return self;
 }
@@ -111,18 +111,10 @@
     }
 }
 
-- (void)touchedTag:(id)sender
-{
-    UITapGestureRecognizer *t = (UITapGestureRecognizer *)sender;
-    DWTagView *tagView = (DWTagView *)t.view;
-    if(tagView && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
-        [self.tagDelegate selectedTag:tagView.label.text];
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
+
     [self display];
 }
 
@@ -135,9 +127,9 @@
             for (UIGestureRecognizer *gesture in [subview gestureRecognizers]) {
                 [subview removeGestureRecognizer:gesture];
             }
-            
+
             [tagView.button removeTarget:nil action:nil forControlEvents:UIControlEventAllEvents];
-            
+
             [tagViews addObject:subview];
         }
         [subview removeFromSuperview];
@@ -145,7 +137,7 @@
 
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
-    
+
     for (id text in textArray) {
         DWTagView *tagView;
         if (tagViews.count > 0) {
@@ -155,15 +147,15 @@
         else {
             tagView = [[DWTagView alloc] init];
         }
-        
-        
+
+
         [tagView updateWithString:text
-                           font:self.font
-              constrainedToWidth:self.frame.size.width - (self.horizontalPadding * 2)
-                        padding:CGSizeMake(self.horizontalPadding, self.verticalPadding)
+                             font:self.font
+               constrainedToWidth:self.frame.size.width - (self.horizontalPadding * 2)
+                          padding:CGSizeMake(self.horizontalPadding, self.verticalPadding)
                      minimumWidth:self.minimumWidth
          ];
-        
+
         if (gotPreviousFrame) {
             CGRect newRect = CGRectZero;
             if (previousFrame.origin.x + previousFrame.size.width + tagView.frame.size.width + self.labelMargin > self.frame.size.width) {
@@ -185,13 +177,8 @@
         [tagView setTextColor:self.textColor];
         [tagView setTextShadowColor:self.textShadowColor];
         [tagView setTextShadowOffset:self.textShadowOffset];
+        [tagView setDelegate:self];
 
-        // Davide Cenzi, added gesture recognizer to label
-        UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTag:)];
-        // if labelView is not set userInteractionEnabled, you must do so
-        [tagView setUserInteractionEnabled:YES];
-        [tagView addGestureRecognizer:gesture];
-        
         [self addSubview:tagView];
 
         if (!_viewOnly) {
@@ -220,9 +207,19 @@
 - (void)touchUpInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
-    [[button superview] setBackgroundColor:[self getBackgroundColor]];
-    if(button && self.tagDelegate && [self.tagDelegate respondsToSelector:@selector(selectedTag:)])
-        [self.tagDelegate selectedTag:button.accessibilityLabel];
+    DWTagView *tagView = (DWTagView *)[button superview];
+    [tagView setBackgroundColor:[self getBackgroundColor]];
+
+    if ([self.tagDelegate respondsToSelector:@selector(selectedTag:)]) {
+        [self.tagDelegate selectedTag:tagView.label.text];
+    }
+
+    if (self.showTagMenu) {
+        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        [menuController setTargetRect:tagView.frame inView:self];
+        [menuController setMenuVisible:YES animated:YES];
+        [tagView becomeFirstResponder];
+    }
 }
 
 - (void)touchDragExit:(id)sender
@@ -236,14 +233,14 @@
     UIButton *button = (UIButton*)sender;
     [[button superview] setBackgroundColor:[self getBackgroundColor]];
 }
-     
+
 - (UIColor *)getBackgroundColor
 {
-     if (!lblBackgroundColor) {
-         return BACKGROUND_COLOR;
-     } else {
-         return lblBackgroundColor;
-     }
+    if (!lblBackgroundColor) {
+        return BACKGROUND_COLOR;
+    } else {
+        return lblBackgroundColor;
+    }
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
@@ -289,6 +286,18 @@
     lblBackgroundColor = nil;
 }
 
+#pragma mark - DWTagViewDelegate
+
+- (void)tagViewWantsToBeDeleted:(DWTagView *)tagView {
+    NSMutableArray *mTextArray = [self.textArray mutableCopy];
+    [mTextArray removeObject:tagView.label.text];
+    [self setTags:mTextArray];
+
+    if ([self.tagDelegate respondsToSelector:@selector(tagListTagsChanged:)]) {
+        [self.tagDelegate tagListTagsChanged:self];
+    }
+}
+
 @end
 
 
@@ -305,7 +314,7 @@
         [_label setBackgroundColor:[UIColor clearColor]];
         [_label setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:_label];
-        
+
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
         _button.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [_button setFrame:self.frame];
@@ -323,25 +332,25 @@
 {
     CGSize textSize = CGSizeZero;
     BOOL isTextAttributedString = [text isKindOfClass:[NSAttributedString class]];
-    
+
     if (isTextAttributedString) {
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:text];
         [attributedString addAttributes:@{NSFontAttributeName: font} range:NSMakeRange(0, ((NSAttributedString *)text).string.length)];
-        
+
         textSize = [attributedString boundingRectWithSize:CGSizeMake(maxWidth, 0) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
         _label.attributedText = [attributedString copy];
     } else {
         textSize = [text sizeWithFont:font forWidth:maxWidth lineBreakMode:NSLineBreakByTruncatingTail];
         _label.text = text;
     }
-    
+
     textSize.width = MAX(textSize.width, minimumWidth);
     textSize.height += padding.height*2;
 
     self.frame = CGRectMake(0, 0, textSize.width+padding.width*2, textSize.height);
     _label.frame = CGRectMake(padding.width, 0, MIN(textSize.width, self.frame.size.width), textSize.height);
     _label.font = font;
-    
+
     [_button setAccessibilityLabel:self.label.text];
 }
 
@@ -384,6 +393,28 @@
 {
     _label = nil;
     _button = nil;
+}
+
+#pragma mark - UIMenuController support
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    return (action == @selector(copy:)) || (action == @selector(delete:));
+}
+
+- (void)copy:(id)sender
+{
+    [[UIPasteboard generalPasteboard] setString:self.label.text];
+}
+
+- (void)delete:(id)sender
+{
+    [self.delegate tagViewWantsToBeDeleted:self];
 }
 
 @end

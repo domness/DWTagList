@@ -7,13 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol DWTagListDelegate <NSObject>
-
-@required
-
-- (void)selectedTag:(NSString*)tagName;
-
-@end
+@protocol DWTagListDelegate, DWTagViewDelegate;
 
 @interface DWTagList : UIScrollView
 {
@@ -24,6 +18,7 @@
 }
 
 @property (nonatomic) BOOL viewOnly;
+@property (nonatomic) BOOL showTagMenu;
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
@@ -52,8 +47,9 @@
 
 @interface DWTagView : UIView
 
-@property (nonatomic, strong) UIButton      *button;
-@property (nonatomic, strong) UILabel       *label;
+@property (nonatomic, strong) UIButton              *button;
+@property (nonatomic, strong) UILabel               *label;
+@property (nonatomic, weak)   id<DWTagViewDelegate> delegate;
 
 - (void)updateWithString:(NSString*)text
                     font:(UIFont*)font
@@ -67,5 +63,23 @@
 - (void)setTextColor:(UIColor*)textColor;
 - (void)setTextShadowColor:(UIColor*)textShadowColor;
 - (void)setTextShadowOffset:(CGSize)textShadowOffset;
+
+@end
+
+
+@protocol DWTagListDelegate <NSObject>
+
+@optional
+
+- (void)selectedTag:(NSString *)tagName;
+- (void)tagListTagsChanged:(DWTagList *)tagList;
+
+@end
+
+@protocol DWTagViewDelegate <NSObject>
+
+@required
+
+- (void)tagViewWantsToBeDeleted:(DWTagView *)tagView;
 
 @end
