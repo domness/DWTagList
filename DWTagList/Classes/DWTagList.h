@@ -2,6 +2,7 @@
 //  DWTagList.h
 //
 //  Created by Dominic Wroblewski on 07/07/2012.
+//  Modified by i-chou on 22/07/2014.
 //  Copyright (c) 2012 Terracoding LTD. All rights reserved.
 //
 
@@ -71,6 +72,7 @@
 
 @optional
 
+- (void)selectedTag:(NSString *)tagName tagIndex:(NSInteger)tagIndex;
 - (void)selectedTag:(NSString *)tagName;
 - (void)tagListTagsChanged:(DWTagList *)tagList;
 
