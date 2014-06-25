@@ -59,7 +59,9 @@
 - (IBAction)tappedAdd:(id)sender
 {
     [_addTagField resignFirstResponder];
-    [[_addTagField text] length]?[_array addObject:[_addTagField text]]:nil;
+    if ([[_addTagField text] length]) {
+        [_array addObject:[_addTagField text]];
+    }
     [_addTagField setText:@""];
     [_tagList setTags:_array];
 }
