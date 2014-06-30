@@ -138,6 +138,7 @@
     CGRect previousFrame = CGRectZero;
     BOOL gotPreviousFrame = NO;
 
+    NSInteger tag = 0;
     for (id text in textArray) {
         DWTagView *tagView;
         if (tagViews.count > 0) {
@@ -177,7 +178,10 @@
         [tagView setTextColor:self.textColor];
         [tagView setTextShadowColor:self.textShadowColor];
         [tagView setTextShadowOffset:self.textShadowOffset];
+        [tagView setTag:tag];
         [tagView setDelegate:self];
+        
+        tag++;
 
         [self addSubview:tagView];
 
@@ -209,6 +213,10 @@
     UIButton *button = (UIButton*)sender;
     DWTagView *tagView = (DWTagView *)[button superview];
     [tagView setBackgroundColor:[self getBackgroundColor]];
+    
+    if ([self.tagDelegate respondsToSelector:@selector(selectedTag:tagIndex:)]) {
+        [self.tagDelegate selectedTag:tagView.label.text tagIndex:tagView.tag];
+    }
 
     if ([self.tagDelegate respondsToSelector:@selector(selectedTag:)]) {
         [self.tagDelegate selectedTag:tagView.label.text];

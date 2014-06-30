@@ -14,10 +14,20 @@
 
 @implementation ViewController
 
-- (void)selectedTag:(NSString *)tagName{
-    
+//- (void)selectedTag:(NSString *)tagName{
+//    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message"
+//                                                    message:[NSString stringWithFormat:@"You tapped tag %@", tagName]
+//                                                   delegate:nil
+//                                          cancelButtonTitle:@"Ok"
+//                                          otherButtonTitles:nil];
+//    [alert show];
+//}
+
+- (void)selectedTag:(NSString *)tagName tagIndex:(NSInteger)tagIndex
+{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message"
-                                                    message:[NSString stringWithFormat:@"You tapped tag %@", tagName]
+                                                    message:[NSString stringWithFormat:@"You tapped tag %@ at index %ld", tagName,(long)tagIndex]
                                                    delegate:nil
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles:nil];
@@ -49,7 +59,9 @@
 - (IBAction)tappedAdd:(id)sender
 {
     [_addTagField resignFirstResponder];
-    [_array addObject:[_addTagField text]];
+    if ([[_addTagField text] length]) {
+        [_array addObject:[_addTagField text]];
+    }
     [_addTagField setText:@""];
     [_tagList setTags:_array];
 }
