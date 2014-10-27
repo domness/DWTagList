@@ -42,7 +42,7 @@
 - (void)setTags:(NSArray *)array;
 - (void)display;
 - (CGSize)fittedSize;
-- (void)scroolToBottomAnimated: (BOOL)animated;
+- (void)scrollToBottomAnimated:(BOOL)animated;
 
 @end
 

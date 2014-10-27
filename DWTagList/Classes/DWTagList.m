@@ -200,7 +200,7 @@
     return sizeFit;
 }
 
-- (void)scroolToBottomAnimated: (BOOL)animated
+- (void)scrollToBottomAnimated:(BOOL)animated
 {
     [self setContentOffset: CGPointMake(0.0, self.contentSize.height - self.bounds.size.height + self.contentInset.bottom) animated: animated];
 }
