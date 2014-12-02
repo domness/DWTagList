@@ -50,7 +50,7 @@
 
     // Customisation
     [_tagList setCornerRadius:4.0f];
-    [_tagList setBorderColor:[UIColor lightGrayColor].CGColor];
+    [_tagList setBorderColor:[UIColor lightGrayColor]];
     [_tagList setBorderWidth:1.0f];
 
     [self.view addSubview:_tagList];

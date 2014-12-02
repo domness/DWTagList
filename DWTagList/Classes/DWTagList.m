@@ -18,7 +18,7 @@
 #define TEXT_COLOR [UIColor blackColor]
 #define TEXT_SHADOW_COLOR [UIColor whiteColor]
 #define TEXT_SHADOW_OFFSET CGSizeMake(0.0f, 1.0f)
-#define BORDER_COLOR [UIColor lightGrayColor].CGColor
+#define BORDER_COLOR [UIColor lightGrayColor]
 #define BORDER_WIDTH 1.0f
 #define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:0.40 green:0.80 blue:1.00 alpha:0.5]
 #define DEFAULT_AUTOMATIC_RESIZE NO
@@ -171,7 +171,7 @@
         
         [tagView setBackgroundColor:[self getBackgroundColor]];
         [tagView setCornerRadius:self.cornerRadius];
-        [tagView setBorderColor:self.borderColor];
+        [tagView setBorderColor:self.borderColor.CGColor];
         [tagView setBorderWidth:self.borderWidth];
         [tagView setTextColor:self.textColor];
         [tagView setTextShadowColor:self.textShadowColor];
@@ -260,7 +260,7 @@
     [self display];
 }
 
-- (void)setBorderColor:(CGColorRef)borderColor
+- (void)setBorderColor:(UIColor*)borderColor
 {
     _borderColor = borderColor;
     [self display];
@@ -333,7 +333,7 @@
         
         [self.layer setMasksToBounds:YES];
         [self.layer setCornerRadius:CORNER_RADIUS];
-        [self.layer setBorderColor:BORDER_COLOR];
+        [self.layer setBorderColor:BORDER_COLOR.CGColor];
         [self.layer setBorderWidth:BORDER_WIDTH];
     }
     return self;
