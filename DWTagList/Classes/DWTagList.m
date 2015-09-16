@@ -36,7 +36,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.automaticResize = DEFAULT_AUTOMATIC_RESIZE;
         [self setup];
     }
     return self;
@@ -53,6 +52,7 @@
 - (void)setup {
     [self addSubview:view];
     [self setClipsToBounds:YES];
+    self.automaticResize = DEFAULT_AUTOMATIC_RESIZE;
     self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
     self.font = [UIFont systemFontOfSize:FONT_SIZE_DEFAULT];
     self.labelMargin = LABEL_MARGIN_DEFAULT;
@@ -104,6 +104,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    [self display];
 }
 
 - (void)display
