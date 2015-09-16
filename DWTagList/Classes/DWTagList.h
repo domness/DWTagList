@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
+IB_DESIGNABLE
 @protocol DWTagListDelegate, DWTagViewDelegate;
 
 @interface DWTagList : UIScrollView
@@ -22,20 +23,20 @@
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
-@property (nonatomic, strong) UIColor *highlightedBackgroundColor;
-@property (nonatomic) BOOL automaticResize;
-@property (nonatomic, strong) UIFont *font;
-@property (nonatomic, assign) CGFloat labelMargin;
-@property (nonatomic, assign) CGFloat bottomMargin;
-@property (nonatomic, assign) CGFloat horizontalPadding;
-@property (nonatomic, assign) CGFloat verticalPadding;
-@property (nonatomic, assign) CGFloat minimumWidth;
-@property (nonatomic, assign) CGFloat cornerRadius;
-@property (nonatomic, strong) UIColor *borderColor;
-@property (nonatomic, assign) CGFloat borderWidth;
-@property (nonatomic, strong) UIColor *textColor;
-@property (nonatomic, strong) UIColor *textShadowColor;
-@property (nonatomic, assign) CGSize textShadowOffset;
+@property (nonatomic, strong) IBInspectable UIColor *highlightedBackgroundColor;
+@property (nonatomic) IBInspectable BOOL automaticResize;
+@property (nonatomic, strong) IBInspectable UIFont *font;
+@property (nonatomic, assign) IBInspectable CGFloat labelMargin;
+@property (nonatomic, assign) IBInspectable CGFloat bottomMargin;
+@property (nonatomic, assign) IBInspectable CGFloat horizontalPadding;
+@property (nonatomic, assign) IBInspectable CGFloat verticalPadding;
+@property (nonatomic, assign) IBInspectable CGFloat minimumWidth;
+@property (nonatomic, assign) IBInspectable CGFloat cornerRadius;
+@property (nonatomic, strong) IBInspectable UIColor *borderColor;
+@property (nonatomic, assign) IBInspectable CGFloat borderWidth;
+@property (nonatomic, strong) IBInspectable UIColor *textColor;
+@property (nonatomic, strong) IBInspectable UIColor *textShadowColor;
+@property (nonatomic, assign) IBInspectable CGSize textShadowOffset;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;

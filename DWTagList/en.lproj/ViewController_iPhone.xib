@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A3017" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <deployment version="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController">
             <connections>
                 <outlet property="addTagField" destination="jpJ-RY-DVa" id="L3x-Qo-6aV"/>
+                <outlet property="tagList" destination="5KX-Ym-5Dj" id="BaZ-dm-OTi"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
         </placeholder>
@@ -16,15 +17,20 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="jpJ-RY-DVa">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jpJ-RY-DVa">
                     <rect key="frame" x="20" y="20" width="209" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="BbS-E8-tmI"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="tjn-Jz-6tK">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjn-Jz-6tK">
                     <rect key="frame" x="237" y="20" width="63" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="3iO-xH-DRR"/>
+                        <constraint firstAttribute="width" constant="63" id="kbL-FZ-qAB"/>
+                    </constraints>
                     <state key="normal" title="Add">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -32,9 +38,31 @@
                         <action selector="tappedAdd:" destination="-1" eventType="touchUpInside" id="4uv-GV-Pxh"/>
                     </connections>
                 </button>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5KX-Ym-5Dj" customClass="DWTagList">
+                    <rect key="frame" x="20" y="58" width="280" height="82"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="82" id="BbB-p1-n04"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <constraints>
+                <constraint firstItem="5KX-Ym-5Dj" firstAttribute="top" secondItem="tjn-Jz-6tK" secondAttribute="bottom" constant="8" id="91m-YJ-Bwc"/>
+                <constraint firstAttribute="trailing" secondItem="tjn-Jz-6tK" secondAttribute="trailing" constant="20" id="MN4-nV-GyW"/>
+                <constraint firstItem="tjn-Jz-6tK" firstAttribute="leading" secondItem="jpJ-RY-DVa" secondAttribute="trailing" constant="8" id="WZM-dv-RPn"/>
+                <constraint firstAttribute="trailing" secondItem="5KX-Ym-5Dj" secondAttribute="trailing" constant="20" id="bHe-eO-fZh"/>
+                <constraint firstItem="tjn-Jz-6tK" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" id="bgQ-5q-DZX"/>
+                <constraint firstItem="jpJ-RY-DVa" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" id="dB5-4q-9hc"/>
+                <constraint firstItem="5KX-Ym-5Dj" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="iiw-xZ-tTi"/>
+                <constraint firstItem="jpJ-RY-DVa" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="rwV-Ih-71Z"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="169" y="249"/>
         </view>
     </objects>
 </document>

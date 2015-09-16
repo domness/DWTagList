@@ -37,7 +37,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _tagList = [[DWTagList alloc] initWithFrame:CGRectMake(20.0f, 70.0f, self.view.bounds.size.width-40.0f, 50.0f)];
     [_tagList setAutomaticResize:YES];
     _array = [[NSMutableArray alloc] initWithObjects:@"Foo",
                         @"Tag Label 1",
@@ -47,13 +46,6 @@
                         @"Long long long long long long Tag", nil];
     [_tagList setTags:_array];
     [_tagList setTagDelegate:self];
-
-    // Customisation
-    [_tagList setCornerRadius:4.0f];
-    [_tagList setBorderColor:[UIColor lightGrayColor]];
-    [_tagList setBorderWidth:1.0f];
-
-    [self.view addSubview:_tagList];
 }
 
 - (IBAction)tappedAdd:(id)sender
